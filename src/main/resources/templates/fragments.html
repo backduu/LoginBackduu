@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+
+<!-- 공통 헤더 영역 -->
+<head th:fragment="header">
+    <title>PDF 파싱 웹 페이지</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/x-icon" href="../static/images/spring-security.png">
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+    >
+    <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.0.6/css/all.css"
+    >
+</head>
+<body>
+ <!-- 공통 네비게이션 바 -->
+<div th:fragment="nav">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-link active">
+                    <p class="nav-link active" sec:authorize="isAuthenticated()" sec:authentication="name">
+                    </p>
+                </li>
+                <!-- home -->
+                <li class="nav-link">
+                    <a class="nav-link acitve" th:href="@{/}">HOME</a>
+                </li>
+                <!--로그인한 사용자만-->
+
+                <!--관리자만-->
+
+                <!---->
+            </ul>
+        </div>
+    </nav>
+</div>
+</body>
+</html>
