@@ -17,16 +17,24 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        /* https://velog.io/@mrcocoball2/Spring-Security-6.1-%EC%9D%B4%ED%9B%84%EC%9D%98-SecurityFilterChain-%EC%84%A4%EC%A0%95 참고 */
         http.httpBasic(AbstractHttpConfigurer::disable) // basic authentication filter 비활성화
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(AntPathRequestMatcher.antMatcher("/")).permitAll()
-                        .requestMatchers(AntPathRequestMatcher.antMatcher("/login")).permitAll()
-                       // .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // 정적 자원에 대해서 인증을 하지 않도록 허가
-                        .anyRequest().authenticated())
-                .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/").permitAll())
-                .logout(form -> form.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/"));
+                        .requestMatchers("/", "/login", "/logout", "/error").permitAll()
+                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // 정적 자원에 대해서 인증을 하지 않도록 허가
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/members")
+                        .failureForwardUrl("/login")
+                        .usernameParameter("userId")
+                        .passwordParameter("passWd")
+                        .permitAll()
+                );
+/*
+    TODO 기본 오류페이지를 server.error.path에서 지정하여 커스터마이징 해보자.
+ */
         return http.build();
     }
 }
