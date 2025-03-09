@@ -8,4 +8,9 @@ import java.util.Date;
 
 @Controller
 public class HomeController {
+    @GetMapping("/login")
+    public String login() {
+
+        return "login";
+    }
 }
