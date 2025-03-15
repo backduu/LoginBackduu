@@ -20,7 +20,7 @@ public class SecurityConfig {
         http.httpBasic(AbstractHttpConfigurer::disable) // basic authentication filter 비활성화
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/logout", "/error").permitAll()
+                        .requestMatchers("/", "/login", "/logout", "/error", "/signup").permitAll()
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // 정적 자원에 대해서 인증을 하지 않도록 허가
                         .anyRequest().authenticated()
                 )
@@ -31,6 +31,10 @@ public class SecurityConfig {
                         .usernameParameter("userId")
                         .passwordParameter("passWd")
                         .permitAll()
+                )
+                .logout(form->form
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessUrl("/")
                 );
 /*
     TODO 기본 오류페이지를 server.error.path에서 지정하여 커스터마이징 해보자.
