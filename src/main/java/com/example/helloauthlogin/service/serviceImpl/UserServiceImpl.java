@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl {
-    private final UserMapper userMapper;
+    @Resource(name="loginDAO")
+    private LoginDao loginDAO;
+
     private final PasswordEncoder passwordEncoder;
 
     @Override
