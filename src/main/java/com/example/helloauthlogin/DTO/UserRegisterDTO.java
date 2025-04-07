@@ -28,4 +28,6 @@ public class UserRegisterDTO {
             message = "비밀번호는 숫자, 대문자, 소문자, 특수문자를 포함해야 하며, 8자 이상 20자 이하여야 합니다."
     )
     private String password;
+
+    private String status;
 }

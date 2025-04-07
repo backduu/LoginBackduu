@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="loginDAO">
+    <insert id="insert_saveSignUp" parameterType="UserRegisterDTO">
+        INSERT INTO DT_USER_MASTER
+            (
+                NAME,
+                AGE,
+                POSITION,
+                DEPT_SEQ,
+                ID,
+                PASSWORD
+            )
+        VALUES
+            (
+                #{name},
+                #{age},
+                #{position},
+                (
+                    CASE WHEN #{dept} = '재무팀' THEN '1'
+                         WHEN #{dept} = '교육사업팀' THEN '2'
+                         WHEN #{dept} = '기획팀' THEN '3'
+                         WHEN #{dept} = '개발 1팀' THEN '4'
+                         WHEN #{dept} = '개발 2팀' THEN '5'
+                         WHEN #{dept} = '기술영업 1팀' THEN '6'
+                         WHEN #{dept} = '기술영업 2팀' THEN '7'
+                         WHEN #{dept} = '해외영업 아시아팀' THEN '8'
+                         WHEN #{dept} = '해외영업 유럽팀' THEN '9'
+                         ELSE '인턴'
+                        END
+                    ),
+                #{id},
+                #{password}
+            )
+    </insert>
+</mapper>
