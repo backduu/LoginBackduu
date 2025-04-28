@@ -15,6 +15,6 @@ public interface UserService {
      * @return void
      * @Descrption 회원가입 폼 유저 저장 메소드
      */
-    void saveSignUp(UserRegisterDTO userRegisterDTO);
+    UserRegisterDTO saveSignUp(UserRegisterDTO userRegisterDTO);
 
 }
