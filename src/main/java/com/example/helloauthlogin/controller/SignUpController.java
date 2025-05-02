@@ -15,11 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SignUpController {
     private final UserService userService;
 
-    @GetMapping
-    public String signup() {
-        return "signup";
-    }
-
     @PostMapping
     public String signup(@ModelAttribute UserRegisterDTO userDto) {
         // 유저 삽입

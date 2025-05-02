@@ -36,9 +36,6 @@ public class SecurityConfig {
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/")
                 );
-/*
-    TODO 기본 오류페이지를 server.error.path에서 지정하여 커스터마이징 해보자.
- */
         return http.build();
     }
 }
