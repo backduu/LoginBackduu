@@ -2,6 +2,8 @@ package com.example.helloauthlogin.DTO;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.apache.ibatis.session.ResultContext;
+import org.apache.ibatis.session.ResultHandler;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

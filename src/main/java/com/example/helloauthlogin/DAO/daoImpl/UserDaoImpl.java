@@ -17,9 +17,12 @@ public class UserDaoImpl implements UserDao {
     public UserRegisterDTO saveSignUp(UserRegisterDTO userRegisterDTO) {
         int result = sqlSession.insert("loginDAO.insert_saveSignUp", userRegisterDTO);
 
-        if(result > 1) {
+
+        // 여기서 사용자 체크해서 이미 있는 아이디, 비밀번호, 계정인지 확인해보자.
+        if(result > 0) {
             return userRegisterDTO;
         } else {
+            UserRegisterDTO user = sqlSession.selectOne("loginDAO.select_findByUserName", userRegisterDTO);
             throw new LoginBackduuException(ErrorCode.SAVE_ERROR);
         }
     }

@@ -4,16 +4,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="loginDAO">
+    <resultMap id="UserResultMap" type="com.example.helloauthlogin.DTO.UserRegisterDTO">
+        <id column="SEQ" property="id"/>
+        <result column="NAME" property="name"/>
+        <result column="AGE" property="age"/>
+    </resultMap>
+
     <insert id="insert_saveSignUp" parameterType="com.example.helloauthlogin.DTO.UserRegisterDTO">
         INSERT INTO DT_USER_MASTER
-            (
-                NAME,
-                AGE,
-                POSITION,
-                DEPT_SEQ,
-                ID,
-                PASSWORD
-            )
+        (
+            NAME,
+            AGE,
+            POSITION,
+            DEPT_SEQ,
+            ID,
+            PASSWORD
+        )
         VALUES
             (
                 #{name},
@@ -36,4 +42,28 @@
                 #{password}
             )
     </insert>
+
+    <select id="select_findByUserName" parameterType="com.example.helloauthlogin.DTO.UserRegisterDTO" resultMap="UserResultMap">
+        SELECT   T1.SEQ,
+                 T1.NAME,
+                 T1.ID
+          FROM   DT_USER_MASTER T1
+     LEFT JOIN   DT_AUTHORITY   T2
+            ON   T1.SEQ = T2.USER_ID
+        WHERE    T1.NAME = #{name}
+    </select>
+
+   <!-- <insert id="insert_userAuthority" parameterType="com.example.helloauthlogin.DTO.AuthorityDTO">
+        INSERT INTO DT_AUTHORITY
+            (
+                USER_ID,
+                AUTHORITY
+            )
+        VALUES
+            (
+                #{userId},
+                #{authority}
+            )
+    </insert>-->
+
 </mapper>

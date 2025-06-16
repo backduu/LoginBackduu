@@ -15,11 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SignUpController {
     private final UserService userService;
 
+    @GetMapping
+    public String signupForm() {
+        return "signup"; // 회원가입 페이지 출력
+    }
+
     @PostMapping
     public String signup(@ModelAttribute UserRegisterDTO userDto) {
         // 유저 삽입
         userService.saveSignUp(userDto);
 
-        return "redirect:login";
+        return "redirect:/login";
     }
 }

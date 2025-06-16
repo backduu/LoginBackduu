@@ -22,6 +22,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/login", "/logout", "/error", "/signup").permitAll()
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // 정적 자원에 대해서 인증을 하지 않도록 허가
+                        .requestMatchers("/static/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
