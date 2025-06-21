@@ -5,10 +5,13 @@ import lombok.*;
 import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -39,11 +42,15 @@ public class UserRegisterDTO implements UserDetails {
 
     private String status;
 
-    private String authority;
+    private List<String> authority;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton((GrantedAuthority) () -> authority);
+        // 리스트 형태로 권한을 반환한다.
+        return authority.stream()
+                .map(authority -> new SimpleGrantedAuthority(authority))
+                .collect(Collectors.toList());
+        //return Collections.singleton((GrantedAuthority) () -> authority);
     }
 
     public Boolean isAdmin() {

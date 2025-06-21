@@ -22,8 +22,6 @@ public class SignUpController {
 
     @PostMapping
     public String signup(@ModelAttribute UserRegisterDTO userDto) {
-        // 유저 삽입
-        userService.saveSignUp(userDto);
 
         return "redirect:/login";
     }

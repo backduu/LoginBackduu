@@ -16,8 +16,7 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    @Override
-    public UserRegisterDTO saveSignUp(UserRegisterDTO userRegisterDTO) {
-        return userDao.saveSignUp(userRegisterDTO);
+    public UserRegisterDTO findByUserId(String userId) {
+        return userDao.findByUserId(userId);
     }
 }

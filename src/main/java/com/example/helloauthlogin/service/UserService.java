@@ -7,14 +7,5 @@ import org.springframework.stereotype.Service;
 
 
 public interface UserService {
-
-    /**
-     * @author 백두현
-     * @since 2025-04-05(005)
-     * @param userRegisterDTO
-     * @return void
-     * @Descrption 회원가입 폼 유저 저장 메소드
-     */
-    UserRegisterDTO saveSignUp(UserRegisterDTO userRegisterDTO);
-
+    UserRegisterDTO findByUserId(String id);
 }
