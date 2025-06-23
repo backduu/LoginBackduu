@@ -33,18 +33,18 @@
                 <li class="nav-link">
                     <a class="nav-link acitve" th:href="@{/}">HOME</a>
                 </li>
-                <!--로그인한 사용자 모두에게 인가함. -->
-                <li class="nav-link">
-                    <a class="nav-link active" th:href="@{/notice}" sec:authorize="isAuthenticated()">공지사항</a>
-                </li>
-                <!--관리자만 인가함. -->
-                <li class="nav-link">
-                    <a class="nav-link active" th:href="@{/admin}" sec:authorize="hasAnyRole('ROLE_ADMIN')">관리자</a>
-                </li>
-                <!--로그인한 사용자 모두에게 인가함. -->
-                <li class="nav-link">
-                    <a class="nav-link active" th:href="@{/note}" sec:authorize="hasAnyRole('ROLE_USER')">개인노트</a>
-                </li>
+<!--                &lt;!&ndash;로그인한 사용자 모두에게 인가함. &ndash;&gt;-->
+<!--                <li class="nav-link">-->
+<!--                    <a class="nav-link active" th:href="@{/notice}" sec:authorize="isAuthenticated()">공지사항</a>-->
+<!--                </li>-->
+<!--                &lt;!&ndash;관리자만 인가함. &ndash;&gt;-->
+<!--                <li class="nav-link">-->
+<!--                    <a class="nav-link active" th:href="@{/admin}" sec:authorize="hasAnyRole('ROLE_ADMIN')">관리자</a>-->
+<!--                </li>-->
+<!--                &lt;!&ndash;로그인한 사용자 모두에게 인가함. &ndash;&gt;-->
+<!--                <li class="nav-link">-->
+<!--                    <a class="nav-link active" th:href="@{/note}" sec:authorize="hasAnyRole('ROLE_USER')">개인노트</a>-->
+<!--                </li>-->
                 <!-- START REGION (로그인/로그아웃/회원가입 인가) -->
                 <li class="nav-link">
                     <a class="nav-link active" th:href="@{/login}" sec:authorize="!isAuthenticated()">로그인</a>

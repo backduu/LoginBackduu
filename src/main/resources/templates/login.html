@@ -7,11 +7,11 @@
 <body>
 <header th:insert="fragments.html::nav"></header>
 <div class="container">
-    <form class="form-signin" method="post" th:action="@{/login}">
+    <form class="form-signin" method="post" th:action="@{/doLogin}">
         <h2 class="form-signin-heading">로그인</h2>
         <p>
-            <label for="username" class="sr-only">Username</label>
-            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+            <label for="userId" class="sr-only">UserId</label>
+            <input type="text" id="UserId" name="userId" class="form-control" placeholder="UserId" required autofocus>
         </p>
         <p>
             <label for="password" class="sr-only">Password</label>

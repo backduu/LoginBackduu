@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.helloauthlogin.DAO.UserDao">
+    <resultMap id="UserWithRoles" type="com.example.helloauthlogin.DTO.AuthorityDTO">
+        <id property="SEQ" column="SEQ"/>
+        <result property="id" column="id"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <result property="position" column="position"/>
+        <result property="dept" column="dept"/>
+        <result property="status" column="status"/>
+        <!--  권한을 리스트로 매핑        -->
+        <collection property="authority" ofType="string" column="authority"/>
+    </resultMap>
+
+    <select id="findByUserId" resultMap="UserWithRoles">
+        SELECT   T1.ID,
+                 T1.NAME,
+                 T1.AGE,
+                 T1."POSITION",
+                 T1.PASSWORD,
+                 T1.DEPT_SEQ
+        FROM   DT_USER_MASTER T1
+                   LEFT JOIN   DT_AUTHORITIES ST1
+                               ON   T1.ID = ST1.user_id
+        WHERE   T1.ID = #{userId}
+    </select>
+
+    <insert id="saveUser" parameterType="com.example.helloauthlogin.DTO.UserRegisterDTO">
+        INSERT INTO DT_USER_MASTER (
+                NAME,
+                AGE,
+                POSITION,
+                ID,
+                PASSWORD
+        ) VALUES (
+                #{name},
+                #{age},
+                #{position},
+                #{userId},
+                #{password}
+        )
+    </insert>
+</mapper>
