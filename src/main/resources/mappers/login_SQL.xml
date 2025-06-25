@@ -32,16 +32,23 @@
 
     <insert id="saveUser" parameterType="com.example.helloauthlogin.DTO.UserRegisterDTO">
         INSERT INTO DT_USER_MASTER (
+                SEQ,
                 NAME,
                 AGE,
                 POSITION,
+                DEPT_SEQ,
                 ID,
                 PASSWORD
         ) VALUES (
+                (
+                    SELECT   NVL(MAX(SEQ), 0) + 1
+                      FROM   DT_USER_MASTER
+                ),
                 #{name},
                 #{age},
                 #{position},
-                #{userId},
+                #{dept},
+                #{id},
                 #{password}
         )
     </insert>
