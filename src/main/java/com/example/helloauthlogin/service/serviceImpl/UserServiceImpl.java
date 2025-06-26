@@ -10,6 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -30,6 +34,13 @@ public class UserServiceImpl implements UserService {
         // 비밀번호 암호화
         userRegisterDTO.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
         int a = userDao.saveUser(userRegisterDTO);
+        // 유저 저장 완료되면 권한 관리 위한 삽입 실행
+        if(a == 1) {
+            Map<String, Object> map = new HashMap<>();
+            userRegisterDTO.setAuthority(List.of("ROLE_USER", "ROLE_ADMIN"));
+
+            userDao.saveAuthorities(userRegisterDTO);
+        }
         System.out.println(">>>>>>>>>>>>>>>>>>>  " + a);
     }
 }

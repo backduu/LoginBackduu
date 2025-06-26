@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class UserRegisterDTO implements UserDetails {
+    private Long seq;
+
     @NotBlank(message = "이름은 필수 항목입니다.")
     @Size(min = 2, max = 30, message = "이름은 2자 이상, 30자 이하여야 합니다.")
     private String name;
