@@ -9,6 +9,7 @@ import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional(readOnly = true)
     public UserRegisterDTO findByUserId(String userId) {
         return userDao.findByUserId(userId);
     }
@@ -37,7 +39,7 @@ public class UserServiceImpl implements UserService {
         // 유저 저장 완료되면 권한 관리 위한 삽입 실행
         if(a == 1) {
             Map<String, Object> map = new HashMap<>();
-            userRegisterDTO.setAuthority(List.of("ROLE_USER", "ROLE_ADMIN"));
+            userRegisterDTO.setAuthority(List.of("ROLE_USER"));
 
             userDao.saveAuthorities(userRegisterDTO);
         }

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,7 +29,7 @@ public class SecurityConfig {
     private final UserService userService;
 
     @Bean
-    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    protected SecurityFilterChain filterChain(HttpSecurity http, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) throws Exception {
         http.httpBasic(AbstractHttpConfigurer::disable) // basic authentication filter 비활성화
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
@@ -40,18 +41,45 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/doLogin")
-                        .defaultSuccessUrl("/members")
+                        .defaultSuccessUrl("/")
                         .failureForwardUrl("/login")
                         .usernameParameter("userId")
-                        .passwordParameter("passWd")
+                        .passwordParameter("password")
                         .permitAll()
                 )
                 .logout(form->form
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/")
-                );
+                )
+                // spring security6 부턴 람다 스타일로 authenticationManager 설정
+                .authenticationProvider(authenticationProvider(userDetailsService, passwordEncoder));
+        ;
         return http.build();
     }
+
+    /*
+    옛날이었으면 먼저 PasswordEncoder를 주입받고 아래와 같이 AuthenticationManager를 설정해서 커스텀 UserDetailsService와 PasswordEncoder를 연결하지만
+    6 버전 이후부터는 deprecated된 아래 방식을 안쓰고 람다 스타일 AuthenticationManager 을 등록하고 authenticationProvider
+    를 구현하여 내부적으로 UserDetailsService와 PasswordEncoder를 연결해준다.
+         @Bean
+        public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder)
+                throws Exception {
+            return http.getSharedObject(AuthenticationManagerBuilder.class)
+                    .userDetailsService(userDetailsService())
+                    .passwordEncoder(passwordEncoder)
+                    .and()
+                    .build();
+         }
+
+    * */
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder);
+        return authProvider;
+    }
+
 
     /*
         UserDetailsService 구현

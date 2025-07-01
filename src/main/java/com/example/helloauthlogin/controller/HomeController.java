@@ -1,9 +1,14 @@
 package com.example.helloauthlogin.controller;
 
+import com.example.helloauthlogin.DTO.UserRegisterDTO;
+import com.example.helloauthlogin.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
 
@@ -19,7 +24,11 @@ login(..., Authentication auth) {
 
  */
 @Controller
+@RequiredArgsConstructor
 public class HomeController {
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
+
     @GetMapping("/login")
     public String login() {
 
@@ -31,12 +40,25 @@ public class HomeController {
     public String login(
             @RequestParam String userId,
             @RequestParam String password,
-            HttpServletRequest request
+            HttpServletRequest request,
+            RedirectAttributes redirectAttributes
     ) {
-        // 이미 로그인된 사용자인지 체크
+        UserRegisterDTO user = userService.findByUserId(userId);
 
-        // 로그인 실패 메시지 처리
+        if (user == null) {
+            redirectAttributes.addFlashAttribute("error", "아이디가 존재하지 않습니다.");
+            return "redirect:/login";
+        }
 
-        return "redirect:/login?error=true";
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            redirectAttributes.addFlashAttribute("error", "비밀번호가 일치하지 않습니다.");
+            return "redirect:/login";
+        }
+
+        // 로그인 성공 후 세션 저장
+        request.getSession().setAttribute("loginUser", user);
+
+        return "redirect:/members"; // 로그인 성공 후 이동할 경로
+
     }
 }
